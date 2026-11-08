@@ -6,3 +6,15 @@ artifacts/
 logs/
 *.user
 *.suo
+
+.maptriggers-staging/
+.test-tmp/
+.local-data/
+.lab/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+LOCAL_DEVELOPMENT.md
+scripts/lab_*.py
+scripts/run_monitored_lab.py

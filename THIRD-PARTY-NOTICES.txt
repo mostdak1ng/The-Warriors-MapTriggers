@@ -1,9 +1,9 @@
-The Warriors Freecam v0.2.0
+The Warriors MapTriggers v0.3.2
 Third-Party Notices
 
 The self-contained Windows binary includes components from the .NET 8 runtime
 and Windows Desktop runtime. Those components are not part of the GPL-covered
-Freecam source and remain under their respective terms.
+MapTriggers source and remain under their respective terms.
 
 .NET 8 Runtime and Windows Desktop Runtime license
 ==================================================
@@ -1307,3 +1307,18 @@ Licensed under the Apache License, Version 2.0.
 
 Available at
 https://github.com/SixLabors/ImageSharp/blob/f4f689ce67ecbcc35cebddba5aacb603e6d1068a/LICENSE
+
+
+CPython 3.14.4 and Tcl/Tk 8.6
+===========================
+
+The portable distribution includes CPython 3.14.4 x64, its standard library,
+Tcl/Tk and the native libraries supplied by that Python installation. The
+complete Python license collection is preserved in runtime/LICENSE.txt.
+Tcl/Tk component license files are retained under runtime/tcl. Other notices
+and licenses present in the standard library and DLL directories are retained.
+Python source: https://www.python.org/downloads/release/python-3144/
+Tcl/Tk source: https://www.tcl.tk/software/tcltk/
+These components retain their own licenses and are not relicensed as GPL.
+The bundled runtime search path is isolated; user site-packages and the
+machine's Python registry settings are not used.

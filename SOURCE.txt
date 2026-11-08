@@ -1,15 +1,17 @@
-The Warriors Freecam v0.2.0 — Corresponding Source
+The Warriors MapTriggers v0.3.2 - Corresponding Source
 
-The binary archive is distributed alongside:
+Matching binary and source artifacts:
+    TheWarriorsMapTriggers-v0.3.2-windows-x64.zip
+    TheWarriorsMapTriggers-v0.3.2-source.zip
 
-    TheWarriorsFreecam-v0.2.0-source.zip
+The source archive contains the application, backend, project files, tests,
+build scripts, baseline hashes, GPLv3 license and dependency notices. It
+contains no game data. The build requirements and pinned runtime versions
+are documented in README.md. Python and Tcl/Tk licenses accompany their
+runtime; .NET notices accompany the launcher.
 
-That archive contains the complete source used to build the executable,
-including project files, tests, build scripts, GPLv3 license, and third-party
-notices.
-
-When redistributing the binary under GPL-3.0-only, keep the Corresponding
-Source available with it in one of the ways permitted by GPLv3 section 6.
+When redistributing binaries, make the exact matching source available in
+one of the ways permitted by GPLv3 section 6. The source archive must match the distributed binary version.
 
 Copyright (C) 2026 mostdak1ng
 SPDX-License-Identifier: GPL-3.0-only

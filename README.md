@@ -1,268 +1,247 @@
-# The Warriors Freecam
+# The Warriors MapTriggers
 
-Standalone Freecam, coordinate display, player carry, God mode, and reversible
-world pause for the USA release of *The Warriors* running in PCSX2. The v0.2.0
-build is a portable Windows x64 executable: it does not require Python or a
-separately installed .NET runtime.
+Free camera and map exploration tools for **The Warriors on PCSX2**.
+MapTriggers succeeds The Warriors Freecam and includes its keyboard/mouse and
+controller camera controls in one application.
 
-Every official screenshot keeps this visible in the lower-right corner:
+- Native free camera with live camera and player coordinates.
+- Mission trigger boxes, flag positions and an inside-volume panel.
+- Live terrain collision, player bounds and climb diagnostics.
+- Player carry/noclip, God mode and reversible practical world pause.
+- Exploration lighting, fog removal, extended view range and sector visibility.
+- Portable Windows x64 package with Python and .NET included.
 
-`Freecam mod by mostdak1ng v0.2.0`
-
-The watermark cannot be hidden in the official build, even when the rest of
-the HUD is hidden. It identifies the exact version when reporting a bug.
+Version **0.3.2**.
+It connects through PCSX2's local PINE server and does not require a 60 fps patch.
 
 ## Requirements
 
 - Windows 10 or Windows 11, x64.
-- PCSX2 with its PINE server reachable on the default TCP port `28011`.
-- *The Warriors* USA: serial `SLUS-21215`, game version `1.03`, CRC
-  `B99A75DE`.
-- PCSX2 stable is supported. Nightly support has been verified specifically
-  with PCSX2 2.7.522; nightly builds change daily, so later builds may require
-  additional testing.
-- Borderless fullscreen is the primary tested display mode. Windowed mode is
-  supported. Switching between them while the mod is running should work.
-- Exclusive fullscreen can run the Freecam but cannot display its external
-  HUD or permanent watermark. Use borderless fullscreen or windowed mode.
+- PCSX2 with PINE enabled (default slot `28011`). This version was
+  tested with **PCSX2 v2.9.146**; compatibility with other builds
+  has not been established for this MapTriggers release.
+- Your own unmodified The Warriors USA v1.03 ISO9660 image: SLUS-21215,
+  game CRC B99A75DE. Compressed images are not supported by the extractor.
+- A complete extracted MapTriggers distribution. Python and .NET are included;
+  neither needs to be installed separately on the destination PC.
+- Borderless fullscreen or windowed mode for the external HUD. Exclusive
+  fullscreen cannot display the external overlay.
 
-No administrator rights, Python installation, or external controller library
-is required.
+The disc executable is verified before extraction. The application generates
+its map catalogs privately from your image and caches them under
+`%LOCALAPPDATA%\TheWarriorsMapTriggers`. No game image, BIOS, emulator,
+savestate, Lua script, or extracted map dataset is included in the distribution.
+No data or logs are uploaded automatically.
 
-## Recommended PCSX2 settings
+## Install and run
 
-### Required: enable PINE
+1. Download the Windows x64 ZIP and extract the **entire folder**. Keep
+   `TheWarriorsMapTriggers.exe`, `backend` and `runtime` together.
+2. In PCSX2, open **Settings > Advanced > PINE Settings**, enable PINE and note
+   its slot/port. Restart PCSX2 after enabling it.
+3. Use borderless fullscreen or windowed display. Optionally enable
+   **Hide Cursor In Fullscreen** in PCSX2's interface settings for mouse look.
+4. Load the game and create a backup savestate **before** starting MapTriggers.
+5. Open `TheWarriorsMapTriggers.exe`, select your ISO and match the PINE port.
+   Choose a start profile and any optional settings described below.
+6. Acknowledge the backup warning and press **Start MapTriggers**. The first
+   start generates the map cache from your ISO; later starts verify and reuse it.
+7. Focus the PCSX2 game window to enable camera controls. If map detection is
+   ambiguous, choose the loaded map in the launcher's selection dialog.
 
-In **Settings > Advanced > PINE Settings**, check **Enable** and leave
-**Slot** at `28011`, then restart PCSX2. The PINE server is not available to
-the mod until PCSX2 has been restarted after enabling it.
+![PCSX2 PINE settings](docs/images/pcsx2-pine-settings.png)
+![PCSX2 borderless fullscreen](docs/images/pcsx2-borderless-fullscreen.png)
+![PCSX2 cursor setting](docs/images/pcsx2-hide-cursor.png)
 
-![PCSX2 PINE settings with Enable checked and slot 28011](docs/images/pcsx2-pine-settings.png)
+There is no mod file to install in PCSX2's cheats folder, and administrator
+rights are not required. Existing Freecam users should extract MapTriggers
+into a separate folder; no previous Freecam installation is needed.
 
-### Required for the complete HUD: borderless fullscreen
+## Stop safely and protect your savestates
 
-In **Settings > Graphics > Display**, set **Fullscreen Mode** to **Borderless
-Fullscreen**. The Freecam itself can run in exclusive fullscreen, but its
-external overlay and permanent version watermark will not be visible.
-Windowed mode is also supported.
+Exit with **F10**, **Stop safely**, or the controller exit chord. Closing the
+launcher requests the same restoration; wait for it to finish.
+If the game pause menu is open or PCSX2 is paused, close the menu or resume
+PCSX2 when requested. A second Stop/F10 ends the wait with hooks detached and
+retained memory; restart the game before another session in that case.
 
-![PCSX2 Graphics settings with Borderless Fullscreen selected](docs/images/pcsx2-borderless-fullscreen.png)
+**Do not create or load savestates while the mod is running.** Temporary hooks,
+player state and timestep changes can be captured in them. Close MapTriggers
+before loading another state. Back up your memory card before experimenting
+with player relocation. If a savestate is loaded accidentally while the mod is
+active, exit MapTriggers, restart the game and load the backup made before the
+session rather than creating another state.
 
-### Optional: hide the cursor in fullscreen
+Do not run MapTriggers alongside the old Freecam or another MapTriggers
+session: they share native hooks. If ownership is lost or restoration fails,
+review the log and restart the game before retrying.
 
-In **Settings > Interface**, check **Hide Cursor In Fullscreen**. This is not
-required, but it greatly improves quality of life when using mouse look.
+## Profiles and launcher options
 
-![PCSX2 Interface settings with Hide Cursor In Fullscreen checked](docs/images/pcsx2-hide-cursor.png)
+MapTriggers starts in keyboard/mouse Freecam, carry off and God mode on. The
+**Freecam** profile starts with diagnostic geometry disabled and a compact HUD;
+**MapTriggers** starts with trigger diagnostics. Both use the same native camera.
+Experimental X-ray/object collision is optional and starts disabled.
 
-Other graphics, emulation, and controller settings can remain at the values
-that work best for your system and game.
+| Option | Behavior |
+| --- | --- |
+| Capture Pad 1 in keyboard/mouse mode | Prevents gameplay input from keys that PCSX2 also maps to Pad 1. Leave off to let a controller play alongside keyboard/mouse Freecam. |
+| Return to player FollowCamera when leaving Freecam | Explicitly selects the player's follow camera when leaving Freecam or exiting. Off by default because it can replace fixed or scripted cameras. |
+| Start with the world practically paused | Applies the practical pause as soon as the renderer is installed. |
+| Experimental collision | Enables X-ray drawing and the optional nearby-object bounds view. |
 
-## Critical save-state warning
+The selected ISO, port, profile and options are saved between runs. You can
+also start in a menu or Game Over: **O** and **F10** remain available while
+MapTriggers waits for a playable world. Camera and geometry tools start when
+the required world and allocator pass are ready.
 
-1. Back up your PCSX2 memory card file before using the mod.
-2. Create a backup save state **before** starting the mod.
-3. Do not create or load a save state while the mod is running.
-4. Exit cleanly with `F10`, or hold `Select+Start` for 1.5 seconds while in
-   controller mode and then release both buttons when prompted.
+## Keyboard and mouse
 
-A save state made while the mod is active can contain temporary executable
-patches, modified player state, and a modified world timestep. Loading any save
-state while active can also replace the memory that the program owns. The
-launcher requires explicit confirmation of this warning before it will start.
-
-Use the mod at your own risk. The author is not responsible for damage to a
-game save, memory card, or save state.
-
-The program removes its native input hook and restores the player's original
-God/no-target bits and the exact original world timestep on a normal exit. It
-intentionally does **not** move the player back to its starting position and
-does not load a save state automatically. Returning to normal mode stops
-overriding the currently active game camera, allowing gameplay, scripted, and
-cutscene cameras to resume their own behavior.
-
-## Running
-
-1. Confirm these three PCSX2 settings:
-   - **Required:** enable PINE, use slot `28011`, and restart PCSX2 after
-     changing the setting.
-   - **Required for the overlay:** use **Borderless Fullscreen** or windowed
-     mode instead of exclusive fullscreen.
-   - **Optional but strongly recommended:** enable **Hide Cursor In
-     Fullscreen**.
-2. Enter the game with a map loaded, such as the Hangout, a mission, or a
-   Rumble map.
-3. Create the backup save state.
-4. Run `TheWarriorsFreecam.exe`.
-5. Wait for the green preflight result, acknowledge the warning, and choose
-   **Start Freecam**.
-6. Click the game window if keyboard/mouse input is paused because PCSX2 is
-   not focused.
-
-The session starts with keyboard/mouse Freecam active, player carry off, world
-time normal, HUD visible, and God mode on. By default, Pad 1 continues to
-control the game until controller Freecam is selected.
-
-If PCSX2 maps Pad 1 to keyboard keys such as `W`, `A`, `S`, and `D`, enable
-**Capture Pad 1 in keyboard/mouse Freecam** in the launcher. Keyboard and mouse
-still control the Freecam through Windows, while the game receives a neutral
-Pad 1. Normal-camera mode releases Pad 1 automatically. The option is off by
-default so a physical controller can continue controlling the game alongside
-keyboard/mouse Freecam.
-
-By default, leaving Freecam returns control to whichever camera the game
-currently has active. Enable **Return to player FollowCamera when leaving
-Freecam** if you specifically want the camera to follow the relocated player
-after using carry. This option can override fixed, scripted, or cutscene
-cameras, so it is off by default. It also applies when the program closes.
-
-## Keyboard and mouse controls
+Controls are active while the PCSX2 game window has focus. **R** affects the
+informational HUD, including labels and coordinates; native diagnostic geometry
+uses its own filters below. No version watermark is drawn over gameplay.
 
 | Input | Action |
 | --- | --- |
-| Mouse | Look |
-| `W` `A` `S` `D` | Move |
-| `Q` / `E` | Move down / up |
-| `Shift` | Fast movement (4×) |
-| `Ctrl` | Precise movement (0.25×) |
-| `V` | Toggle keyboard/mouse Freecam and the normal game camera |
-| `P` | Toggle world pause |
-| `F8` | Toggle player carry |
-| `G` | Toggle God mode |
-| `R` | Hide/show the HUD; the version watermark remains visible |
-| `F10` | Clean exit |
+| Mouse; W/A/S/D; Q/E | Look; move; down/up |
+| Shift / Ctrl | Fast / precise movement |
+| V | Keyboard/mouse Freecam / normal game camera |
+| P | Practical world pause / restore time |
+| F8 | Player carry/noclip |
+| G | God mode |
+| R | Show/hide the informational HUD |
+| F10 | Safe exit |
+| F | Trigger flags / all flags / off |
+| 0-3 | Trigger kinds |
+| N / Shift+N; M | Next/previous trigger; selected trigger only |
+| 4-9; apostrophe | Terrain categories; all terrain |
+| C; T; Y | Climb diagnostics; player bounds; player air stand |
+| O | Hide/show native game 2D panels |
+| Z; X | Exploration light; remove fog |
+| F5 | View range 1x / 2x / 4x / 8x |
+| F11 | All loaded sectors / native visibility |
+| B | Nearby object bounds (experimental collision option) |
 
-## Controller controls (Pad 1)
+Hiding game panels changes drawing, not menu logic: hidden menus may still
+receive input. All-sectors mode does not load absent content or remove every
+LOD/occlusion rule. Extra range and geometry can reduce performance. The
+terrain batch retains its existing 44-face limit and object bounds its 24-box
+limit; these are diagnostics, not a complete collision export.
 
-Controller Freecam uses a 10% radial deadzone.
+## Controller (PCSX2 Pad 1)
+
+The mod uses the controller already configured in PCSX2, including SDL mappings;
+it does not require an additional controller library. Radial deadzone is 10%.
+Button names below follow the PS2 layout: on a standard Xbox mapping,
+**Select = View/Back**, **Start = Menu**, **Square = X**, **Circle = B** and
+**Triangle = Y**. **L1/R1 = LB/RB**, **L2/R2 = LT/RT** and **L3/R3** are the
+stick clicks. These refer to your configured PCSX2 mappings. This version
+has been tested with an Xbox controller mapped in PCSX2, keyboard and mouse.
 
 | Input | Action |
 | --- | --- |
-| `Select+L3` | Enter controller Freecam; press again for normal camera |
-| Left stick | Move |
-| Right stick | Look |
-| `L1` / `R1` | Move down / up |
-| `L2` | Fast movement (4×) |
-| `R2` | Precise movement (0.25×) |
-| `Select+Square` | Toggle world pause |
-| `Select+R3` | Toggle player carry |
-| `Select+Circle` | Toggle God mode |
-| `Select+Triangle` | Hide/show the HUD |
-| Hold `Select+Start` for 1.5 seconds, then release both | Clean exit without leaking `Start` to the game |
+| Select+L3 | Controller Freecam / normal game camera |
+| Left / right stick | Move / look |
+| L1 / R1 | Down / up |
+| L2 / R2 | Fast / precise movement |
+| Select+Square | World pause |
+| Select+R3 | Carry |
+| Select+Circle | God mode |
+| Select+Triangle | Informational HUD |
+| Hold Select+Start 1.5 seconds, then release both | Safe exit |
 
-Entering with `Select+L3` captures Pad 1 so it controls only the Freecam.
-Leaving controller mode stops overriding the active game camera and then
-returns Pad 1 to the game. Entering with `V` selects keyboard/mouse Freecam and
-leaves Pad 1 available to the game.
+Pad 1 is neutralized for gameplay while controlling Freecam with the controller.
+Normal mode, focus loss and world transitions release capture. If the host stops
+refreshing suppression, the guest routine returns input after 60 refresh calls.
+Use V to switch from controller Freecam to keyboard/mouse without leaving
+Freecam. The optional keyboard capture setting also neutralizes Pad 1 while
+keyboard/mouse Freecam is active; otherwise a controller can play alongside it.
+Advanced diagnostics retain keyboard controls.
 
-The native Pad 1 capture has a guest-side timeout. If the host program stops
-refreshing it unexpectedly, controller input fails open and returns to the
-game automatically in about one second of active gameplay.
+By default, leaving Freecam lets the game's currently selected camera resume.
+The optional FollowCamera setting instead explicitly selects the player's
+follow camera, including at exit; it can replace fixed or scripted cameras.
 
-## World pause
+## Map data and diagnostic limits
 
-World pause starts off. Press `P` in keyboard/mouse Freecam, controller
-Freecam, or normal-camera mode to toggle it. In controller Freecam,
-`Select+Square` provides the same toggle.
+The extractor produces a catalog of **53 datasets**, containing **974 trigger
+boxes** and **6,196 flag positions**, across story missions, flashbacks, Armies
+of the Night, Coney and auxiliary scripts. This describes static extraction
+coverage, not gameplay testing of every level. A flag position does not imply
+that its mission handler is currently active; associated trigger radii are
+shown when the extractor can recover them.
 
-This is a practical pause rather than a true one: it reduces the game's native
-world timestep to `0.0001` of its current value, or 0.01%. Actors, mission
-timers, and world simulation are practically frozen while the Freecam and
-overlay continue updating normally.
+Map selection is normally automatic. The manual dialog includes auxiliary
+datasets when detection cannot confidently choose one. Terrain and object
+bounds come from the running game. Split-screen/P2, the full campaign and
+loading arbitrary savestates with active hooks have not been validated.
 
-Disabling world pause restores the exact IEEE-754 timestep bits captured when
-it was enabled. It also restores automatically before a loading screen or
-world transition and on clean program exit. World pause remains off after the
-new map loads.
+## Pause, transitions and restoration
 
-## Player carry and God mode
+World pause scales the captured world timestep to 0.01%; it is a practical
+pause, not a complete simulation freeze. It restores the exact original float
+bits when toggled off, during world transitions and on clean exit. The camera
+continues updating. **Start with the world practically paused** enables this
+as soon as the renderer is installed; if PCSX2 was paused, resume it when
+requested so allocation can complete.
 
-Carry starts off. When enabled during either Freecam mode, the player is held
-slightly in front of and below the camera. Carry is released in normal-camera
-mode and during loading screens; the preference resumes after gameplay returns.
+Transitions detach native hooks and release controller capture before rebuilding
+for a stable world. F10/Stop during a transition can wait for a safe allocator
+pass before releasing owned heap blocks. Do not force-close the backend.
+Carry does not move the player back to the starting position at exit. God and
+no-target bits are restored for still-valid player entities. Camera and renderer
+allocations are released through the game's allocator. This is not a guarantee
+of arbitrary active-savestate migration or crash-proof recovery.
 
-God mode starts on. Toggling it changes only the game's known God bit. On a
-normal exit, the exact God/no-target state that the current player entity had
-before the mod touched it is restored. This is normally God mode off.
+## Logs and troubleshooting
 
-## Overlay
+Use **Open logs** in the launcher. Logs, settings, cached data and session files
+live under `%LOCALAPPDATA%\TheWarriorsMapTriggers`; the extracted installation
+can be read-only. Logs contain technical paths, emulator identity, coordinates,
+input state, timings and errors. Review them before sharing. When reporting a
+problem, include the MapTriggers version from the launcher, PCSX2 version,
+game/mission, relevant settings and the newest log.
 
-The overlay shows:
+- PINE unavailable: verify the selected port, enable PINE and restart PCSX2.
+- Unsupported image/game: use the supported USA executable and your own ISO.
+- Occupied hook: close other tools and restart the game; do not force takeover.
+- Invisible HUD: focus the game and use borderless/windowed display.
+- Incomplete distribution: extract the full ZIP, not just its executable.
+- Unsigned build: this build is not code-signed.
+- No camera movement: focus the game window; use **V** for keyboard/mouse or
+  **Select+L3** for controller Freecam, and check that Pad 1 works in PCSX2.
+- ISO preparation failed: select the supported unmodified `.iso` image.
+  Compressed images such as CHD/CSO cannot be used by this extractor.
 
-- active control mode and status;
-- camera X/Y/Z coordinates;
-- player X/Y/Z coordinates;
-- carry, God mode, world pause, and HUD state;
-- current controls; and
-- the permanent version watermark.
+## Build from source
 
-It tracks the PCSX2 rendering viewport when switching between borderless
-fullscreen and windowed mode. It is click-through and hides when the game is
-minimized or loses focus.
-
-## Logs and bug reports
-
-Each run creates a JSON-lines log in `logs` beside the executable. If that
-location is not writable, it uses:
-
-`%LOCALAPPDATA%\TheWarriorsFreecam\logs`
-
-Use **Open Logs** in the launcher. Attach the newest log and a screenshot when
-reporting a bug; the screenshot should include the permanent watermark.
-
-Logs are never uploaded automatically. They deliberately include detailed
-diagnostic data such as app and emulator versions, executable and configuration
-paths, Windows user/domain and machine names, display/window data, game object
-addresses, coordinates, Pad 1 state, world-timestep changes, timings,
-transitions, and exception details. Review the file yourself before sharing it
-if any of that information is sensitive to you.
-
-## Troubleshooting
-
-- **PINE is not reachable:** enable its PINE server, use port `28011`, restart
-  PCSX2, load the game, and choose **Recheck**.
-- **Unsupported executable:** use `SLUS-21215` v1.03 with CRC `B99A75DE`.
-- **Another hook is active:** close other PINE/native tools, then restart the
-  game before using this standalone mod.
-- **Windows SmartScreen appears:** v0.2.0 is not code-signed. Verify the SHA-256
-  checksum distributed with the release before running it.
-- **The overlay is hidden:** restore and focus the PCSX2 game window. If PCSX2
-  is using exclusive fullscreen, switch it to borderless fullscreen or
-  windowed mode.
-- **A save state was loaded accidentally:** exit the mod, close PCSX2 without
-  making another save state, restart it, and load the backup created before
-  the session.
-
-## Known issues
-
-- Exclusive fullscreen does not support the external overlay or permanent
-  version watermark. The Freecam itself still runs; use borderless fullscreen
-  or windowed mode for the complete interface.
-
-## Building from source
-
-Install the .NET 8 SDK on Windows x64, then run:
+Install .NET 8 SDK, CPython **3.14.4 x64 with Tcl/Tk**, and pytest for development.
+Then run:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-release.ps1
 ```
 
-The script runs the dependency-free test executable, publishes a self-contained
-single-file Win64 app, creates the binary and Corresponding Source archives,
-and writes SHA-256 checksums under `artifacts`.
+Use `-Offline` if the pinned .NET 8.0.15 runtime packages are already available
+in the local package cache or `.offline-packages`. The build runs the core and
+Python tests, publishes the self-contained launcher, includes an isolated Python
+runtime, tests imports without PATH, and writes binary/source ZIPs plus SHA-256
+checksums under `artifacts/maptriggers-local`. It does not commit, tag, push,
+rename the GitHub repository or publish a release. The runtime versions and
+whether tests ran are recorded in `build.json`.
 
-The v0.2.0 release build is pinned to .NET runtime 8.0.15 so its included
-third-party notices match the runtime payload.
+Disc-data tests are optional in a source-only build: set
+`TW_MAPTRIGGERS_TEST_CATALOG` to a locally generated `lua_volume_catalog.json`
+to exercise them. Extracted datasets are never copied into source archives.
 
 ## License
 
-Copyright (C) 2026 mostdak1ng.
+Copyright (C) 2026 mostdak1ng. Source: [**GPL-3.0-only**](LICENSE).
+Provide the matching Corresponding Source when redistributing binaries as
+required by GPLv3. Included .NET, Python, Tcl/Tk and native runtime components
+retain their own terms; see [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)
+and `runtime/LICENSE.txt` in the Windows package. See [SOURCE.txt](SOURCE.txt)
+for the matching source archive.
 
-The Freecam source is licensed under GNU GPL version 3 only. See `LICENSE`.
-Official binary distributions must accompany the complete Corresponding Source,
-including the build script and license. The self-contained .NET runtime remains
-under its own terms listed in `THIRD-PARTY-NOTICES.txt`.
-
-GPLv3 permits inspection, modification, redistribution, and forks under its
-terms. A modified build can therefore change the source-level branding; it
-must not be represented as an unmodified official v0.2.0 binary.
+Use the mod at your own risk. The author is not responsible for damage to a
+game save, memory card, or save state.
