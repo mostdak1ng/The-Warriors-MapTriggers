@@ -12,7 +12,7 @@ controller camera controls in one application.
 - Portable Windows x64 package with Python and .NET included.
 
 Version **0.3.2**.
-It connects through PCSX2's local PINE server and does not require a 60 fps patch.
+It connects through PCSX2's local PINE server.
 
 ## Requirements
 
